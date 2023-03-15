@@ -2,7 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const db = require("./connection");
-
+var cron = require("node-cron");
 // Initializing an express app
 const app = express();
 
@@ -14,6 +14,10 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Just a function running every 10 minutes so the server doesnt sleep on render
+cron.schedule("*/10 * * * *", () => {
+  console.log("Cron job running every 10 minutes");
+});
 // Importing Routes
 const authRoute = require("./routes/auth");
 
