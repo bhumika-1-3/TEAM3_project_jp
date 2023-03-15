@@ -7,7 +7,7 @@ var cron = require("node-cron");
 const app = express();
 
 // Server Port
-const PORT = process.env.PORT || 5001;
+const PORT = 8000;
 
 // Formatting incoming data and allowing cross origin requests
 app.use(cors({ origin: true }));
@@ -21,10 +21,12 @@ cron.schedule("*/10 * * * *", () => {
 // Importing Routes
 const authRoute = require("./routes/auth");
 const placesRoute = require("./routes/places");
+const weatherRoute = require("./routes/Weather")
 
 // Routes
 app.use("/api/auth", authRoute);
 app.use("/api/places", placesRoute);
+app.use("/api/weather",weatherRoute);
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
