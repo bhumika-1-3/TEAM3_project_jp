@@ -67,10 +67,6 @@ const userSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
       },
-      pan: {
-        type: Boolean,
-        default: false,
-      },
     },
 
     tokens: [
