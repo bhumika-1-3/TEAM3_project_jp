@@ -20,9 +20,11 @@ cron.schedule("*/10 * * * *", () => {
 });
 // Importing Routes
 const authRoute = require("./routes/auth");
+const placesRoute = require("./routes/places");
 
 // Routes
 app.use("/api/auth", authRoute);
+app.use("/api/places", placesRoute);
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
