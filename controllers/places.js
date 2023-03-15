@@ -8,7 +8,7 @@ const getCityDetails = async (req, res) => {
       subType: "CITY",
     });
 
-    if (!data) {
+    if (!data || data.length === 0) {
       res.status(400).json({
         message: "City Not Found!",
       });
@@ -37,7 +37,8 @@ const popularPlaces = async (req, res) => {
       keyword: cityName,
       subType: "CITY",
     });
-    if (data) {
+    console.log(data);
+    if (data.length > 0) {
       const coordinates = data[0].geoCode;
       const response =
         await amadeus.referenceData.locations.pointsOfInterest.get({
