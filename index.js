@@ -3,6 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./connection");
 var cron = require("node-cron");
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerDocs = require('./utils/swagger.json');
 // Initializing an express app
 const app = express();
 
@@ -42,6 +45,8 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
+// require("./utils/swagger")(app, PORT);
+app.use("/api-docs",swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Error Handling for Multer
 // app.use((error, req, res, next) => {
 //   console.log('This is the rejected field ->', error.field);
