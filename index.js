@@ -26,6 +26,7 @@ const restaurantRoute = require("./routes/Restaurant");
 const hotelRoute = require("./routes/hotels");
 const streetFoodRoute = require("./routes/streetFood");
 const userRoute = require("./routes/user");
+const transportRoute = require("./routes/transport");
 
 // Routes
 app.use("/api/auth", authRoute);
@@ -35,6 +36,7 @@ app.use("/api/restaurants", restaurantRoute);
 app.use("/api/hotels", hotelRoute);
 app.use("/api/streetFood", streetFoodRoute);
 app.use("/api/user", userRoute);
+app.use("/api/transport", transportRoute);
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
