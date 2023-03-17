@@ -6,13 +6,20 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+function parseString(dataFromServer) {
+  var parsedJSON = JSON.parse(dataFromServer.d);
+  for (var i = 0; i < parsedJSON.length; i++) {
+    alert(parsedJSON[i].Id);
+  }
+}
+
 const findStreetFood = async (req, res) => {
   try {
     const { cityName } = req.params;
     const prompt =
-      'Give me an english sentence of 2 steet food giving the street food name,its expected price in ' +
+      'Give me two javascript array of objects in string format with 2 steet food giving the street food name,its expected price in ' +
       cityName +
-      '.';
+      '. Dont give me the variable name declaration. Give only the array of objects';
     // console.log(prompt);
     const response = await openai.createCompletion({
       model: 'text-davinci-003',
@@ -23,17 +30,20 @@ const findStreetFood = async (req, res) => {
       frequency_penalty: 0,
       presence_penalty: 0,
     });
-    const data = response.data.choices[0].text;
+    let data = response.data.choices[0].text;
+    let data2 = data.replace(/(\r\n|\r|\n)/g, '');
+    data2 = data2.replace('.', '');
+    // console.log(data2);
+    // data2 = JSON.parse(data2);
+    // console.log(data2);
     return res.status(200).json({
       success: true,
-      data: response.data.choices[0].text,
+      data: data2,
     });
   } catch (error) {
     return res.status(400).json({
       success: false,
-      error: error.response
-        ? error.response.data
-        : 'There was an issue on the server',
+      error: error.message,
     });
   }
 };

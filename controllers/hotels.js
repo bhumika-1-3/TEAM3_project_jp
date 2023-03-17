@@ -7,7 +7,7 @@ const getDestination = async (cityName) => {
     url: 'https://booking-com.p.rapidapi.com/v1/hotels/locations',
     params: { name: cityName, locale: 'en-gb' },
     headers: {
-      'X-RapidAPI-Key': '56488f728bmshbefb82330b6338bp1e7f61jsn018a54764ba9',
+      'X-RapidAPI-Key': '9400a32b34msh07985d5fcd571b9p136c51jsn27aabaa29f81',
       'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
     },
   };
@@ -55,7 +55,7 @@ const getHotels = async (
       include_adjacency: 'true',
     },
     headers: {
-      'X-RapidAPI-Key': '56488f728bmshbefb82330b6338bp1e7f61jsn018a54764ba9',
+      'X-RapidAPI-Key': '9400a32b34msh07985d5fcd571b9p136c51jsn27aabaa29f81',
       'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
     },
   };
@@ -100,7 +100,7 @@ const returnHotels = async (req, res) => {
       no_of_room,
     } = req.params;
     const destinationIds = await getDestination(cityName);
-    // console.log(destinationIds);
+    console.log(destinationIds);
     let hotelList = [];
     for (x in destinationIds) {
       const hotel = await getHotels(
