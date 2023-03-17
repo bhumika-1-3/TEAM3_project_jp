@@ -31,6 +31,37 @@ const getCityDetails = async (req, res) => {
     });
   }
 };
+
+const getCityDetailsFn = async (cityName) => {
+  try {
+
+    const { data } = await amadeus.referenceData.locations.get({
+      keyword: cityName,
+      subType: "CITY",
+    });
+
+    if (!data || data.length === 0) {
+      res.status(400).json({
+        message: "City Not Found!",
+      });
+      return;
+    }
+    const cityCode = data[0].iataCode;
+    const coordinates = data[0].geoCode;
+
+    return({
+      message: "City Code Fetched!",
+      cityCode,
+      coordinates,
+      completeData: data,
+    });
+  } catch (error) {
+    return({
+      message: error.message,
+    });
+  }
+};
+
 const popularPlacesOpenTripMap = async (req, res) => {
   try {
     const { cityName } = req.params;
@@ -104,4 +135,5 @@ module.exports = {
   popularPlacesAmadeus,
   getCityDetails,
   popularPlacesOpenTripMap,
+  getCityDetailsFn
 };
