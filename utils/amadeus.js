@@ -1,5 +1,5 @@
-const Amadeus = require("amadeus");
-const dotenv = require("dotenv").config();
+const Amadeus = require('amadeus');
+const dotenv = require('dotenv').config({ path: '../.env' });
 
 const amadeus = new Amadeus({
   clientId: process.env.AMADEUS_CLIENT_ID,

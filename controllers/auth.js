@@ -1,21 +1,18 @@
 // Importing modules
-const User = require("../models/user");
-const bcryptjs = require("bcryptjs");
-const {removeSensitiveData} = require("../utils/functions");
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv").config();
-const axios = require("axios");
-
-
+const User = require('../models/user');
+const bcryptjs = require('bcryptjs');
+const { removeSensitiveData } = require('../utils/functions');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv').config({ path: '../.env' });
+const axios = require('axios');
 
 // Signup
 const signup = async (req, res) => {
   try {
-
     let user = await User.findOne({ email: req.body.email });
     if (user) {
       res.status(400).json({
-        message: "User Already Exists!",
+        message: 'User Already Exists!',
         data: {
           user: user,
         },
@@ -25,19 +22,15 @@ const signup = async (req, res) => {
 
     let newUser = new User({
       ...req.body,
-    
-
     });
 
     await newUser.save();
     const token = await User.generatejwt(newUser._id);
- 
 
-    
     newUser = removeSensitiveData(newUser);
     // Sending a response back
     res.status(201).json({
-      message: "User Signed Up",
+      message: 'User Signed Up',
       data: {
         token,
         user: newUser,
@@ -49,17 +42,13 @@ const signup = async (req, res) => {
     });
   }
 };
-
-
 
 const signupAdmin = async (req, res) => {
   try {
-
-
     let user = await User.findOne({ email: req.body.email });
     if (user) {
       res.status(400).json({
-        message: "User Already Exists!",
+        message: 'User Already Exists!',
         data: {
           user: user,
         },
@@ -68,17 +57,16 @@ const signupAdmin = async (req, res) => {
     }
     let newUser = new User({
       ...req.body,
-      type: "ADMIN",
-      password
+      type: 'ADMIN',
+      password,
     });
     await newUser.save();
     const token = await User.generatejwt(newUser._id);
-  
 
     newUser = removeSensitiveData(newUser);
     // Sending a response back
     res.status(201).json({
-      message: "User Signed Up",
+      message: 'User Signed Up',
       data: {
         token,
         user: newUser,
@@ -90,26 +78,24 @@ const signupAdmin = async (req, res) => {
     });
   }
 };
-
 
 // Login
 const login = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
-   
+
     if (!user) {
       res.status(404).json({
-        message: "User not found!",
+        message: 'User not found!',
       });
       return;
     }
 
     const isMatch = await bcryptjs.compare(req.body.password, user.password);
-    
+
     if (!isMatch) {
       res.status(401).json({
-        message: "Invalid credentials!",
-        
+        message: 'Invalid credentials!',
       });
       return;
     }
@@ -119,14 +105,13 @@ const login = async (req, res) => {
     user = removeSensitiveData(user);
 
     res.status(200).json({
-      message: "User Verified!",
+      message: 'User Verified!',
       token,
-      user
+      user,
     });
   } catch (error) {
     res.status(400).json({
       message: error.message,
-      
     });
   }
 };
@@ -144,7 +129,7 @@ const logout = async (req, res) => {
     await currentUser.save();
 
     res.status(200).json({
-      message: "Successfully logged out!",
+      message: 'Successfully logged out!',
     });
   } catch (error) {
     res.status(400).json({
@@ -161,7 +146,7 @@ const logoutAll = async (req, res) => {
     await currentUser.save();
 
     res.status(200).json({
-      message: "Successfully logged out of all sessions!",
+      message: 'Successfully logged out of all sessions!',
     });
   } catch (error) {
     res.status(400).json({
@@ -176,7 +161,7 @@ const changePassword = async (req, res) => {
     let user = await User.findById(req.user._id);
     if (!user) {
       res.status(404).json({
-        message: "User not found!",
+        message: 'User not found!',
       });
       return;
     }
@@ -184,7 +169,7 @@ const changePassword = async (req, res) => {
     const isMatch = await bcryptjs.compare(req.body.oldpassword, user.password);
     if (!isMatch) {
       res.status(401).json({
-        message: "Invalid credentials!",
+        message: 'Invalid credentials!',
       });
       return;
     }
@@ -197,7 +182,7 @@ const changePassword = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: "Password changed!"
+      message: 'Password changed!',
     });
   } catch (error) {
     res.status(400).json({
@@ -205,8 +190,6 @@ const changePassword = async (req, res) => {
     });
   }
 };
-
-
 
 // Exporting modules
 module.exports = {
@@ -216,5 +199,4 @@ module.exports = {
   logoutAll,
   changePassword,
   signupAdmin,
- 
 };
