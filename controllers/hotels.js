@@ -1,15 +1,15 @@
-const { amadeus } = require("../utils/amadeus");
-const axios = require("axios");
-const dotenv = require("dotenv").config();
+const { amadeus } = require('../utils/amadeus');
+const axios = require('axios');
+const dotenv = require('dotenv').config({ path: '../.env' });
 
 const getDestination = async (cityName) => {
   const options = {
-    method: "GET",
-    url: "https://booking-com.p.rapidapi.com/v1/hotels/locations",
-    params: { name: cityName, locale: "en-gb" },
+    method: 'GET',
+    url: 'https://booking-com.p.rapidapi.com/v1/hotels/locations',
+    params: { name: cityName, locale: 'en-gb' },
     headers: {
-      "X-RapidAPI-Key": process.env.RAPID_API_BOOKING_KEY,
-      "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
+      'X-RapidAPI-Key': process.env.RAPID_API_BOOKING_KEY,
+      'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
     },
   };
   const response2 = await axios
@@ -36,28 +36,28 @@ const getHotels = async (
   no_of_room
 ) => {
   const options = {
-    method: "GET",
-    url: "https://booking-com.p.rapidapi.com/v1/hotels/search",
+    method: 'GET',
+    url: 'https://booking-com.p.rapidapi.com/v1/hotels/search',
     params: {
       adults_number: parseInt(adults),
-      dest_type: "city",
-      filter_by_currency: "INR",
+      dest_type: 'city',
+      filter_by_currency: 'INR',
       checkout_date: checkout_date,
       checkin_date: checkin_date,
-      order_by: "price",
-      locale: "en-gb",
+      order_by: 'price',
+      locale: 'en-gb',
       dest_id: parseInt(destinationId),
-      units: "metric",
+      units: 'metric',
       room_number: no_of_room,
-      categories_filter_ids: "class::2,class::4,free_cancellation::1",
+      categories_filter_ids: 'class::2,class::4,free_cancellation::1',
       children_number: children,
-      children_ages: "5,0",
-      page_number: "0",
-      include_adjacency: "true",
+      children_ages: '5,0',
+      page_number: '0',
+      include_adjacency: 'true',
     },
     headers: {
-      "X-RapidAPI-Key": process.env.RAPID_API_BOOKING_KEY,
-      "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
+      'X-RapidAPI-Key': process.env.RAPID_API_BOOKING_KEY,
+      'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
     },
   };
   const response2 = await axios
