@@ -10,7 +10,7 @@ const HotelCard = ({ hotel }) => {
             {/* Hotel Image */}
             <div className="col-span-12 mmd:col-span-4 min-h-[180px] max-h-[230px]">
                 <Link to={`hotels/${hotel?.location_id}`}>
-                    <img src={hotel?.Image ? hotel?.photo?.images?.large?.url : 'https://media-cdn.tripadvisor.com/media/photo-s/22/d9/7b/42/this-image-has-been-removed.jpg'} alt=""
+                    <img src={hotel?.Image ? hotel?.Image : 'https://media-cdn.tripadvisor.com/media/photo-s/22/d9/7b/42/this-image-has-been-removed.jpg'} alt=""
                         className=" w-full h-full object-cover cursor-pointer"
                     />
                 </Link>
