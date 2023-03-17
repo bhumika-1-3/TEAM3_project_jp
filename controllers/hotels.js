@@ -7,7 +7,7 @@ const getDestination = async (cityName) => {
     url: 'https://booking-com.p.rapidapi.com/v1/hotels/locations',
     params: { name: cityName, locale: 'en-gb' },
     headers: {
-      'X-RapidAPI-Key': '9400a32b34msh07985d5fcd571b9p136c51jsn27aabaa29f81',
+      'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
       'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
     },
   };
@@ -40,7 +40,7 @@ const getHotels = async (
     params: {
       adults_number: adults,
       dest_type: 'city',
-      filter_by_currency: 'INR',
+      filter_by_currency: 'AED',
       checkout_date: checkout_date,
       checkin_date: checkin_date,
       order_by: 'popularity',
@@ -55,11 +55,10 @@ const getHotels = async (
       include_adjacency: 'true',
     },
     headers: {
-      'X-RapidAPI-Key': '9400a32b34msh07985d5fcd571b9p136c51jsn27aabaa29f81',
+      'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
       'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
     },
   };
-
   const response2 = await axios
     .request(options)
     .then(function (response) {
@@ -116,7 +115,6 @@ const returnHotels = async (req, res) => {
     const myHotels = hotelList.filter(function (inst) {
       return inst.min_total_price < price;
     });
-    // console.log(hotelList);
     res.status(200).json({
       success: true,
       data: myHotels,
@@ -124,7 +122,7 @@ const returnHotels = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Could not fetch data',
+      message: destinationIds,
     });
   }
 };
