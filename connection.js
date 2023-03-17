@@ -1,6 +1,6 @@
 // Importing the modules
-const mongoose = require('mongoose');
-const dotenv = require('dotenv').config({ path: '../.env' });
+const mongoose = require("mongoose");
+const dotenv = require("dotenv").config();
 
 const connectionParameters = {
   useUnifiedTopology: true,
@@ -11,7 +11,7 @@ const connectionParameters = {
 const connection = mongoose
   .connect(process.env.URI, connectionParameters)
   .then(() => {
-    console.log('Connected to database');
+    console.log("Connected to database");
   })
   .catch((error) => {
     console.log(error);
