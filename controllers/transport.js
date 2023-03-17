@@ -57,6 +57,68 @@ const getBestFlights = async (req, res) => {
   }
 };
 
+const getLocationData = async (query) => {
+  try {
+    const options = {
+      method: "GET",
+      url: "https://skyscanner44.p.rapidapi.com/autocomplete-rentacar",
+      params: { query },
+      headers: {
+        "X-RapidAPI-Key": process.env.RAPID_API_SKYSCANNER_KEY,
+        "X-RapidAPI-Host": "skyscanner44.p.rapidapi.com",
+      },
+    };
+    const { data } = await axios.request(options);
+    return data[0].entity_id;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getBestCarRental = async (req, res) => {
+  try {
+    const { location, pickupDate, returnDate } = req.params;
+    const locationId = await getLocationData(location);
+    const options = {
+      method: "GET",
+      url: "https://skyscanner44.p.rapidapi.com/search-rentacar",
+      params: {
+        pickupId: locationId,
+        pickupDate: format(new Date(pickupDate), "yyyy-MM-dd"),
+        pickupTime: "10:00",
+        returnDate: format(new Date(returnDate), "yyyy-MM-dd"),
+        returnTime: "10:00",
+        currency: "INR",
+      },
+      headers: {
+        "X-RapidAPI-Key": process.env.RAPID_API_SKYSCANNER_KEY,
+        "X-RapidAPI-Host": "skyscanner44.p.rapidapi.com",
+      },
+    };
+
+    const { data } = await axios.request(options);
+    const cars = Object.keys(data.providers);
+    const mostRatedCar = cars.reduce((prev, curr) => {
+      if (data.providers[prev].rating > data.providers[curr].rating) {
+        return prev;
+      } else {
+        return curr;
+      }
+    });
+
+    res.status(200).json({
+      message: "Car Fetched",
+      data: data.providers[mostRatedCar],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getBestFlights,
+  getBestCarRental,
 };
