@@ -3,6 +3,7 @@ import { Tab } from '@headlessui/react'
 import { ToStay, ToVisit } from '../components'
 import Climate from '../Climate/src/CLimate'
 import { HotelsList, RestaurantsList } from '../pages'
+import Transport from '../pages/Transport'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -124,7 +125,7 @@ export default function ItineraryNav() {
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
               )}
             >
-              <HotelsList/>
+              <HotelsList />
             </Tab.Panel>
             <Tab.Panel
               key={5}
@@ -133,7 +134,7 @@ export default function ItineraryNav() {
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
               )}
             >
-              {/* transport */}
+              <Transport />
             </Tab.Panel>
             <Tab.Panel
               key={5}
@@ -144,7 +145,7 @@ export default function ItineraryNav() {
             >
               <ToVisit></ToVisit>
             </Tab.Panel>
-         
+
             <Tab.Panel
               key={5}
               className={classNames(
@@ -164,10 +165,10 @@ export default function ItineraryNav() {
               )}
             >
               <div className='p-10'>
-                <RestaurantsList/>
+                <RestaurantsList />
               </div>
             </Tab.Panel>
-            
+
           </Tab.Panels>
 
         </Tab.Group>

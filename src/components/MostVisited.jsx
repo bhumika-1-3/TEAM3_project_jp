@@ -184,10 +184,12 @@ const Home = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
+    console.log('hehe')
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
+    // console.log(anchorEl)
     setAnchorEl(null);
   };
 

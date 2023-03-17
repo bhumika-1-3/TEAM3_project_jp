@@ -7,6 +7,7 @@ import map from "../img/map.png";
 import moment from "moment";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import { Information } from "../Iternary/Iternary";
 
 // Custom Input Field Component
 const Input = ({ type, name, value, valueInline, handleChange, handleChangeInline, classProps, moreProps }) => (
@@ -27,6 +28,7 @@ const Input = ({ type, name, value, valueInline, handleChange, handleChangeInlin
 )
 
 const HotelsList = () => {
+    const { info, setInfo } = useContext(Information)
     // Destructuring the neccessary states from the main context
     const { coordinates, isLoading, setIsLoading, setType } = useContext(MainContext);
     const [hotels, setHotels] = useState();
@@ -39,65 +41,53 @@ const HotelsList = () => {
     document.addEventListener('scroll', () => window.scrollY > 100 ? setScrolled(true) : setScrolled(false));
 
     // Filter Parameter state with certain Default value set
+    // console.log(info)
+
     const [filterParams, setFilterParams] = useState({
         limit: 30,
         rooms: 1,
         adults: 1,
         hotel_class: '4, 5',
-        checkin: moment(new Date()).format("YYYY-MM-DD"),
-        checkout: '',
+        checkin: info.start,
+        checkout: info.end,
         nights: 1,
         pricesmax: '',
         pricesmin: ''
     })
+    useEffect(() => {
+        setFilterParams((prevState) => ({ ...prevState, checkin: info.start }))
+        setFilterParams((prevState) => ({ ...prevState, checkout: info.end }))
+    }, [info.start, info.end])
 
     // Form Changes Handler
     const handleChange = (e, name) => {
-        // Value of 'filterParams' updated on change of input value detected from form fields 
+        // Value of 'filterParams' updated on change of input value detected from form fields
+        if (name === 'adults') {
+            setInfo(prev => ({ ...prev, adults: e.target.value }))
+        }
         setFilterParams((prevState) => ({ ...prevState, [name]: e.target.value }))
     }
-
-    // Effect to fetch places for component from the getPlacesByLatLng endpoint and effect is reran on change of 'coordinates' or 'filterParams' state values
-    // useEffect(() => {
-    //     let source = axios.CancelToken.source()
-
-    //     // Loading state is set to true while data is being fetched from endpoint
-    //     setIsLoading(true);
-
-    //     // Calling on the getPlacesByLatLng endpoint passing in the 'hotels' as place type, coordinates (longitude and latitude), a limit parameter and source for error handling
-    //     getPlacesByLatLng('hotels', coordinates.lat, coordinates.lng, { ...filterParams }, source)
-    //         .then(data => {
-    //             // Data is received anf set to 'hotels' state filtering out items without the 'name' property
-    //             setHotels(data.filter(item => item.name));
-
-    //             // Loading state set back to false to stop loading
-    //             setIsLoading(false);
-    //         })
-
-    //     // Effect Cleanup
-    //     return () => {
-    //         source.cancel()
-    //     }
-    // }, [coordinates, filterParams])
     useEffect(() => {
-        var config = {
-            method: 'get',
-            url: `https://jpmc-project.onrender.com/api/hotels/all/${location}/${filterParams.adults}/1/10000/${filterParams.checkin}/${filterParams.checkout}/${filterParams.rooms}`,
-            headers: {}
-        };
+        if (info.search) {
+            var config = {
+                method: 'get',
+                url: `https://jpmc-project.onrender.com/api/hotels/all/${info.destination}/${filterParams.adults}/1/${info.price}/${filterParams.checkin}/${filterParams.checkout}/${filterParams.rooms}`,
+                headers: {}
+            };
 
-        axios(config)
-            .then(function (response) {
-                // console.log(response.data.data);
-                // setPlaces(response.data.data)
-                setHotels(response.data.data)
-                // places.reverse();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+            axios(config)
+                .then(function (response) {
+                    // console.log(response.data.data);
+                    // setPlaces(response.data.data)
+                    setHotels(response.data.data)
+                    // places.reverse();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
         // console.log(filterParams.checkin, filterParams.checkout, filterParams.rooms, filterParams.adults)
-    }, [filterParams.checkin, filterParams.checkout, filterParams.rooms, filterParams.adults, location])
+    }, [filterParams.checkin, filterParams.checkout, filterParams.rooms, filterParams.adults, info.destination, info.price, info.search])
     // console.log(hotels)
     return (
         <>
@@ -137,7 +127,7 @@ const HotelsList = () => {
                                 ))}
 
                                 // Extra Props to set 'min' and 'max' value of the date input
-                                moreProps={{ min: filterParams.checkin, max: filterParams.checkout }}
+                                // moreProps={{ min: filterParams.checkin, max: filterParams.checkout }}
 
                                 // CSS Classes Props
                                 classProps="w-full rounded border-y border-r shadow px-4 py-2 border-l-8 border-l-green-600 focus:text-gray-700 focus:bg-white focus:border-green-600 focus:outline-none"

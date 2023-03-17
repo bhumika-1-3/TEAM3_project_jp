@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { Fragment, useEffect, useState, useRef, useContext } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import backgroundVideo from "../../assets/videos/monuments.mp4";
 import Popover from '@mui/material/Popover';
@@ -6,22 +6,30 @@ import DateRangeInput from "./DateRange";
 import { Navbar } from "../components"
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { Information } from "./Iternary";
 
 const WhereToDate = () => {
+    const { info, setInfo } = useContext(Information)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [destination, setDestination] = useState("mumbai");
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        // console.log(event.currentTarget)
     };
-
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    const rangeHandler = (e) => {
+        // console.log(e.target.value)
+        setInfo(prev => ({ ...prev, price: e.target.value, search: false }))
+    }
+    const textHandler = (e) => {
+        setInfo(prev => ({ ...prev, destination: e.target.value, search: false }))
+        setDestination(e.target.value)
+    }
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-
+    console.log()
     return (
         <div>
             <div className="w-full h-full relative">
@@ -47,8 +55,8 @@ const WhereToDate = () => {
                                 <input
                                     type="text"
                                     placeholder="Mumbai"
-                                    value={destination}
-                                    onChange={(e) => setDestination(e.target.value)}
+                                    value={info.destination}
+                                    onChange={(e) => textHandler(e)}
                                     className="w-full focus:outline-none px-4 py-3 bg-gray-100 rounded-full text-sm text-gray-500 font-semibold"
                                 />
                             </div>
@@ -59,7 +67,7 @@ const WhereToDate = () => {
                                 <input
                                     type="button"
                                     onClick={handleClick}
-                                    value="DD-MM-YYYY"
+                                    value={`${info.start}->${info.end}`}
                                     className="w-full cursor-pointer focus:outline-none px-4 py-3 bg-gray-100 rounded-full text-sm text-gray-500 font-semibold"
                                 />
                                 <Popover
@@ -78,21 +86,23 @@ const WhereToDate = () => {
                             <div className="">
                                 <div className="flex justify-between text-gray-400 font-semibold mb-3">
                                     <h1>Max price:</h1>
-                                    <h1 className="text-xl text-gray-500">$5000</h1>
+                                    <h1 className="text-xl text-gray-500">₹{info.price}</h1>
                                 </div>
                                 <div className="flex items-center px-4 py-3 bg-gray-100 rounded-full">
                                     <input
                                         type="range"
-                                        min={2000}
-                                        max={100000}
+                                        min={50000}
+                                        max={1000000}
                                         className="w-full focus:outline-none accent-gray-500"
+                                        onChange={(e) => rangeHandler(e)}
                                     />
                                 </div>
                             </div>
                             <button onClick={() => {
+                                setInfo(prev => ({ ...prev, search: true }))
                                 console.log(destination)
-                                Swal.fire("Itinerary is ready","Scroll down","success")
-                                localStorage.setItem("destination",destination);
+                                Swal.fire("Itinerary is ready", "Scroll down", "success")
+                                localStorage.setItem("destination", destination);
                             }} className="absolute -bottom-5 left-[45%] text-white uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
                                 Search
                             </button>
