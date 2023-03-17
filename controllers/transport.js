@@ -44,6 +44,12 @@ const getBestFlights = async (req, res) => {
     };
     console.log(options);
     const { data } = await axios.request(options);
+    if (!data || data.length === 0 || data.itineraries.buckets.length === 0) {
+      res.status(400).json({
+        message: "No Flights Found!",
+      });
+      return;
+    }
     const flights = data.itineraries.buckets[0].items;
     res.status(200).json({
       message: "Flights Fetched",

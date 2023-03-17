@@ -34,7 +34,6 @@ const getCityDetails = async (req, res) => {
 
 const getCityDetailsFn = async (cityName) => {
   try {
-
     const { data } = await amadeus.referenceData.locations.get({
       keyword: cityName,
       subType: "CITY",
@@ -49,16 +48,16 @@ const getCityDetailsFn = async (cityName) => {
     const cityCode = data[0].iataCode;
     const coordinates = data[0].geoCode;
 
-    return({
+    return {
       message: "City Code Fetched!",
       cityCode,
       coordinates,
       completeData: data,
-    });
+    };
   } catch (error) {
-    return({
+    return {
       message: error.message,
-    });
+    };
   }
 };
 
@@ -131,9 +130,48 @@ const popularPlacesAmadeus = async (req, res) => {
   }
 };
 
+const popularPlacesSorted = async (req, res) => {
+  try {
+    const { cityName } = req.params;
+    const { data } = await axios.get(
+      `http://api.opentripmap.com/0.1/en/places/geoname?lang=en&name=${cityName}&format=json&apikey=${process.env.OPENTRIP_API_KEY}`
+    );
+
+    if (!data || data.length === 0) {
+      res.status(400).json({
+        message: "City Not Found!",
+      });
+      return;
+    }
+    console.log(data);
+    const response = await axios.get(
+      `http://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=10000&lat=${data.lat}&lon=${data.lon}&kinds=beaches,other_beaches,museums,architecture,historic_architecture,fortifications,other_archaeological_sites&format=json&apikey=${process.env.OPENTRIP_API_KEY}`
+    );
+    const results = response && response.data;
+    if (!results || results.length === 0) {
+      res.status(400).json({
+        message: "No Places Found!",
+      });
+      return;
+    }
+    const filteredData = response.data.filter(
+      (item) => item.name != "" && item.rate != 0
+    );
+
+    res.status(200).json({
+      message: "Popular Places Fetched!",
+      data: filteredData,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   popularPlacesAmadeus,
   getCityDetails,
   popularPlacesOpenTripMap,
-  getCityDetailsFn
+  getCityDetailsFn,
 };

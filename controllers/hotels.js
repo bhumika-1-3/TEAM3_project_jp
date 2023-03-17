@@ -1,14 +1,15 @@
-const { amadeus } = require('../utils/amadeus');
-const axios = require('axios');
+const { amadeus } = require("../utils/amadeus");
+const axios = require("axios");
+const dotenv = require("dotenv").config();
 
 const getDestination = async (cityName) => {
   const options = {
-    method: 'GET',
-    url: 'https://booking-com.p.rapidapi.com/v1/hotels/locations',
-    params: { name: cityName, locale: 'en-gb' },
+    method: "GET",
+    url: "https://booking-com.p.rapidapi.com/v1/hotels/locations",
+    params: { name: cityName, locale: "en-gb" },
     headers: {
-      'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
-      'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
+      "X-RapidAPI-Key": process.env.RAPID_API_BOOKING_KEY,
+      "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
     },
   };
   const response2 = await axios
@@ -21,7 +22,7 @@ const getDestination = async (cityName) => {
       return extracted_data;
     })
     .catch(function (error) {
-      console.error(error);
+      console.error(error.message);
     });
   return response2;
 };
@@ -35,34 +36,35 @@ const getHotels = async (
   no_of_room
 ) => {
   const options = {
-    method: 'GET',
-    url: 'https://booking-com.p.rapidapi.com/v1/hotels/search',
+    method: "GET",
+    url: "https://booking-com.p.rapidapi.com/v1/hotels/search",
     params: {
-      adults_number: adults,
-      dest_type: 'city',
-      filter_by_currency: 'AED',
+      adults_number: parseInt(adults),
+      dest_type: "city",
+      filter_by_currency: "INR",
       checkout_date: checkout_date,
       checkin_date: checkin_date,
-      order_by: 'popularity',
-      locale: 'en-gb',
-      dest_id: destinationId,
-      units: 'metric',
+      order_by: "price",
+      locale: "en-gb",
+      dest_id: parseInt(destinationId),
+      units: "metric",
       room_number: no_of_room,
-      categories_filter_ids: 'class::2,class::4,free_cancellation::1',
+      categories_filter_ids: "class::2,class::4,free_cancellation::1",
       children_number: children,
-      children_ages: '5,0',
-      page_number: '0',
-      include_adjacency: 'true',
+      children_ages: "5,0",
+      page_number: "0",
+      include_adjacency: "true",
     },
     headers: {
-      'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
-      'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
+      "X-RapidAPI-Key": process.env.RAPID_API_BOOKING_KEY,
+      "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
     },
   };
   const response2 = await axios
     .request(options)
     .then(function (response) {
       const extracted_data = [];
+
       for (x in response.data.result) {
         extracted_data.push({
           min_total_price: response.data.result[x].min_total_price,
@@ -82,7 +84,7 @@ const getHotels = async (
       return extracted_data;
     })
     .catch(function (error) {
-      console.error(error);
+      console.error(error.message);
     });
   return response2;
 };
@@ -96,22 +98,25 @@ const returnHotels = async (req, res) => {
       price,
       checkin_date,
       checkout_date,
-      no_of_room,
+      no_of_rooms,
     } = req.params;
     const destinationIds = await getDestination(cityName);
-    // console.log(destinationIds);
+    console.log(destinationIds);
     let hotelList = [];
-    for (x in destinationIds) {
-      const hotel = await getHotels(
-        destinationIds[x],
-        adults,
-        children,
-        checkin_date,
-        checkout_date,
-        no_of_room
-      );
-      hotelList = [...hotelList, ...hotel];
+
+    const hotel = await getHotels(
+      destinationIds[0],
+      adults,
+      children,
+      checkin_date,
+      checkout_date,
+      no_of_rooms
+    );
+
+    if (hotel) {
+      hotelList = [...hotel];
     }
+
     const myHotels = hotelList.filter(function (inst) {
       return inst.min_total_price < price;
     });

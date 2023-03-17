@@ -1,15 +1,15 @@
 // Importing modules
-const express = require('express');
+const express = require("express");
 // Importing Middleware
-const authorizeJWT = require('../middleware/jwt');
-const { returnHotels } = require('../controllers/hotels');
+const authorizeJWT = require("../middleware/jwt");
+const { returnHotels } = require("../controllers/hotels");
 
 // Initializing router
 const router = new express.Router();
 
 // router.post("/access-token", signup);
 router.get(
-  '/all/:cityName/:adults/:children/:price/:checkin_date/:checkout_date/:no_of_room',
+  "/all/:cityName/:adults/:children/:price/:checkin_date/:checkout_date/:no_of_rooms",
   returnHotels
 );
 
