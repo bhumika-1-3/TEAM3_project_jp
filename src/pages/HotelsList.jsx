@@ -10,7 +10,7 @@ import { Link, useHistory } from "react-router-dom";
 
 // Custom Input Field Component
 const Input = ({ type, name, value, valueInline, handleChange, handleChangeInline, classProps, moreProps }) => (
-    <input 
+    <input
         // Input type
         type={type}
         // Input Name
@@ -32,16 +32,17 @@ const HotelsList = () => {
     const [hotels, setHotels] = useState();
     const [guestsToggle, setGuestsToggle] = useState(false);
     const history = useHistory();
-
+    const location = localStorage.getItem('destination')
+    // console.log(location)
     // Scroll State Handler
     const [scrolled, setScrolled] = useState(false);
     document.addEventListener('scroll', () => window.scrollY > 100 ? setScrolled(true) : setScrolled(false));
 
     // Filter Parameter state with certain Default value set
-    const [filterParams, setFilterParams] = useState({ 
-        limit: 30, 
-        rooms: 1, 
-        adults: 1, 
+    const [filterParams, setFilterParams] = useState({
+        limit: 30,
+        rooms: 1,
+        adults: 1,
         hotel_class: '4, 5',
         checkin: moment(new Date()).format("YYYY-MM-DD"),
         checkout: '',
@@ -53,34 +54,53 @@ const HotelsList = () => {
     // Form Changes Handler
     const handleChange = (e, name) => {
         // Value of 'filterParams' updated on change of input value detected from form fields 
-        setFilterParams((prevState) => ({...prevState, [name]: e.target.value}))
+        setFilterParams((prevState) => ({ ...prevState, [name]: e.target.value }))
     }
 
     // Effect to fetch places for component from the getPlacesByLatLng endpoint and effect is reran on change of 'coordinates' or 'filterParams' state values
+    // useEffect(() => {
+    //     let source = axios.CancelToken.source()
+
+    //     // Loading state is set to true while data is being fetched from endpoint
+    //     setIsLoading(true);
+
+    //     // Calling on the getPlacesByLatLng endpoint passing in the 'hotels' as place type, coordinates (longitude and latitude), a limit parameter and source for error handling
+    //     getPlacesByLatLng('hotels', coordinates.lat, coordinates.lng, { ...filterParams }, source)
+    //         .then(data => {
+    //             // Data is received anf set to 'hotels' state filtering out items without the 'name' property
+    //             setHotels(data.filter(item => item.name));
+
+    //             // Loading state set back to false to stop loading
+    //             setIsLoading(false);
+    //         })
+
+    //     // Effect Cleanup
+    //     return () => {
+    //         source.cancel()
+    //     }
+    // }, [coordinates, filterParams])
     useEffect(() => {
-        let source = axios.CancelToken.source()
+        var config = {
+            method: 'get',
+            url: `https://jpmc-project.onrender.com/api/hotels/all/${location}/${filterParams.adults}/1/10000/${filterParams.checkin}/${filterParams.checkout}/${filterParams.rooms}`,
+            headers: {}
+        };
 
-        // Loading state is set to true while data is being fetched from endpoint
-        setIsLoading(true);
-
-        // Calling on the getPlacesByLatLng endpoint passing in the 'hotels' as place type, coordinates (longitude and latitude), a limit parameter and source for error handling
-        getPlacesByLatLng('hotels', coordinates.lat, coordinates.lng, {...filterParams}, source)
-            .then(data => {
-                // Data is received anf set to 'hotels' state filtering out items without the 'name' property
-                setHotels(data.filter(item => item.name));
-
-                // Loading state set back to false to stop loading
-                setIsLoading(false);
+        axios(config)
+            .then(function (response) {
+                // console.log(response.data.data);
+                // setPlaces(response.data.data)
+                setHotels(response.data.data)
+                // places.reverse();
             })
-
-        // Effect Cleanup
-        return () => {
-            source.cancel()
-        }
-    }, [coordinates, filterParams])
-
-    return ( 
-       <>
+            .catch(function (error) {
+                console.log(error);
+            });
+        // console.log(filterParams.checkin, filterParams.checkout, filterParams.rooms, filterParams.adults)
+    }, [filterParams.checkin, filterParams.checkout, filterParams.rooms, filterParams.adults, location])
+    // console.log(hotels)
+    return (
+        <>
             {/* Navigation Bar with Border */}
             {/* --- */}
 
@@ -90,7 +110,7 @@ const HotelsList = () => {
                         Hotels and Places to stay
                     </h1>
                 </div>
-                
+
                 {/* Check In/Out and Guests Filter */}
                 <div className={`${scrolled && 'border-b'} mb-10 z-30 md:sticky-top bg-white -mt-4`}>
                     <div className="container mx-auto block space-y-4 md:space-y-0 md:grid md:grid-cols-3 gap-2 px-4 py-5">
@@ -105,27 +125,27 @@ const HotelsList = () => {
                                 handleChangeInline={(e) => setFilterParams(prevState => (
                                     {
                                         // Spreading other unchanged states properties
-                                        ...prevState, 
+                                        ...prevState,
 
                                         // new form input value set to the 'checkin' state property
                                         checkin: e.target.value,
 
                                         // Difference between 'checkin' property and 'checkout' property is calculated with resulting value is saved to 'nights'
                                         // ...the individual properties are formatted using 'momentJs' that also does the difference evaluation with the value type coverted into a number using the 'Number' objecct 
-                                        nights: Number(moment(new Date(filterParams.checkout)).diff(moment(new Date(e.target.value)), 'days')),
+                                        // nights: Number(moment(new Date(filterParams.checkout)).diff(moment(new Date(e.target.value)), 'days')),
                                     }
                                 ))}
 
                                 // Extra Props to set 'min' and 'max' value of the date input
-                                moreProps={{min: filterParams.checkin, max: filterParams.checkout}}
+                                moreProps={{ min: filterParams.checkin, max: filterParams.checkout }}
 
                                 // CSS Classes Props
-                                classProps="w-full rounded border-y border-r shadow px-4 py-2 border-l-8 border-l-green-600 focus:text-gray-700 focus:bg-white focus:border-green-600 focus:outline-none" 
+                                classProps="w-full rounded border-y border-r shadow px-4 py-2 border-l-8 border-l-green-600 focus:text-gray-700 focus:bg-white focus:border-green-600 focus:outline-none"
                             />
                             {/* --- */}
                         </div>
                         {/* --- */}
-                        
+
                         {/* Check Out */}
                         <div className="w-full relative">
                             <span className="absolute text-xs bg-white font-semibold px-2 -top-2 left-2">
@@ -138,10 +158,10 @@ const HotelsList = () => {
                                 handleChangeInline={(e) => setFilterParams(prevState => (
                                     {
                                         // Spreading other unchanged states properties
-                                        ...prevState, 
+                                        ...prevState,
 
                                         // new form input value set to the 'checkin' state property
-                                        checkin: e.target.value,
+                                        checkout: e.target.value,
 
                                         // Difference between 'checkout' property and 'checkin' property is calculated with resulting value is saved to 'nights'
                                         // ...the individual properties are formatted using 'momentJs' that also does the difference evaluation with the value type coverted into a number using the 'Number' objecct 
@@ -150,10 +170,10 @@ const HotelsList = () => {
                                 ))}
 
                                 // Extra Props to set 'min' value of the date input
-                                moreProps={{min: filterParams.checkin}}
-                                
+                                moreProps={{ min: filterParams.checkin }}
+
                                 // CSS Classes Props
-                                classProps="w-full rounded border-y border-r shadow px-4 py-2 border-l-8 border-l-red-600 focus:text-gray-700 focus:bg-white focus:border-red-600 focus:outline-none" 
+                                classProps="w-full rounded border-y border-r shadow px-4 py-2 border-l-8 border-l-red-600 focus:text-gray-700 focus:bg-white focus:border-red-600 focus:outline-none"
                             />
                             {/* --- */}
                         </div>
@@ -164,7 +184,7 @@ const HotelsList = () => {
                             {/* Click-enbaled Overlay, that toggles Guests Field */}
                             <div className="absolute w-full h-full top-0 left-0 cursor-pointer bg-transparent z-10"
                                 // On Click function sets 'guestsToggle' to true, hence opening the form field dropdown for Guests and adults
-                                onClick={() => setGuestsToggle(true)} 
+                                onClick={() => setGuestsToggle(true)}
                             />
                             {/* --- */}
 
@@ -174,7 +194,7 @@ const HotelsList = () => {
 
                             {/* FilterParams 'rooms' and 'adults' properties displayed on input display */}
                             <p className="w-full">
-                                { filterParams.rooms } room, { filterParams.adults } adults
+                                {filterParams.rooms} room, {filterParams.adults} adults
                             </p>
                             {/* --- */}
 
@@ -185,7 +205,7 @@ const HotelsList = () => {
                             </span>
 
                             {/* Dropdown is displayed If Guests Toggle is Clicked, hence 'guestsToggle' set to true */}
-                            { guestsToggle && (
+                            {guestsToggle && (
                                 <div className="absolute z-20 w-full left-0 top-12">
                                     <div className="h-4 w-4 bg-white shadow transform rotate-45 mx-auto -mb-2 border border-gray-200" />
                                     <div className="bg-white shadow-md w-full p-4 space-y-2 relative">
@@ -207,7 +227,7 @@ const HotelsList = () => {
                                             </p>
                                             {/* Input Field for 'rooms' */}
                                             <Input type="number" name="rooms" value={filterParams} handleChange={handleChange}
-                                                classProps="w-14 rounded border p-1 text-center focus:text-gray-700 focus:bg-white focus:outline-none" 
+                                                classProps="w-14 rounded border p-1 text-center focus:text-gray-700 focus:bg-white focus:outline-none"
                                             />
                                             {/* --- */}
                                         </div>
@@ -220,14 +240,14 @@ const HotelsList = () => {
                                             </p>
                                             {/* Input Field from 'adults' */}
                                             <Input type="number" name="adults" value={filterParams} handleChange={handleChange}
-                                                classProps="w-14 rounded border p-1 text-center focus:text-gray-700 focus:bg-white focus:outline-none" 
+                                                classProps="w-14 rounded border p-1 text-center focus:text-gray-700 focus:bg-white focus:outline-none"
                                             />
                                             {/* --- */}
                                         </div>
                                         {/* --- */}
                                     </div>
                                 </div>
-                            ) }
+                            )}
                             {/* --- */}
                         </div>
                         {/* --- */}
@@ -251,7 +271,7 @@ const HotelsList = () => {
                                             setType('hotels');
                                             // Then routing is done to the Map Route
                                             history.push("/map");
-                                        }} 
+                                        }}
                                     >
                                         <p className="font-semibold flex items-center text-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -269,7 +289,7 @@ const HotelsList = () => {
 
                     {/* Hotels Listing */}
                     <div className="lg:col-span-9">
-                        { !hotels || isLoading ? (
+                        {!hotels ? (
                             // Displays a loading if 'hotels' has no data in state or data fetching is in loading state
                             <PlaceListLoader />
                         ) : (
@@ -277,18 +297,18 @@ const HotelsList = () => {
                             hotels?.map((hotel, i) => (
                                 <HotelCard key={i} hotel={hotel} />
                             ))
-                        ) }
+                        )}
                     </div>
                     {/* / Hotels Listing */}
-                    
+
                 </div>
             </div>
-            
+
             {/* Footer Component */}
             <Footer />
             {/* --- */}
-       </>
-     );
+        </>
+    );
 }
- 
+
 export default HotelsList;
