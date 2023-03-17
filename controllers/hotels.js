@@ -99,7 +99,7 @@ const returnHotels = async (req, res) => {
       no_of_room,
     } = req.params;
     const destinationIds = await getDestination(cityName);
-    console.log(destinationIds);
+    // console.log(destinationIds);
     let hotelList = [];
     for (x in destinationIds) {
       const hotel = await getHotels(
