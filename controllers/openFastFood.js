@@ -31,11 +31,12 @@ const findStreetFood = async (req, res) => {
       presence_penalty: 0,
     });
     let data = response.data.choices[0].text;
+    // console.log(data);
     let data2 = data.replace(/(\r\n|\r|\n)/g, '');
+    data2 = data2.replace(/ /g, '');
     data2 = data2.replace('.', '');
-    // console.log(data2);
-    // data2 = JSON.parse(data2);
-    // console.log(data2);
+    console.log(data2);
+    data2 = JSON.parse(data2);
     return res.status(200).json({
       success: true,
       data: data2,
