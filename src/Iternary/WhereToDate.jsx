@@ -4,9 +4,12 @@ import backgroundVideo from "../../assets/videos/monuments.mp4";
 import Popover from '@mui/material/Popover';
 import DateRangeInput from "./DateRange";
 import { Navbar } from "../components"
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const WhereToDate = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [destination, setDestination] = useState("mumbai");
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -44,6 +47,8 @@ const WhereToDate = () => {
                                 <input
                                     type="text"
                                     placeholder="Mumbai"
+                                    value={destination}
+                                    onChange={(e) => setDestination(e.target.value)}
                                     className="w-full focus:outline-none px-4 py-3 bg-gray-100 rounded-full text-sm text-gray-500 font-semibold"
                                 />
                             </div>
@@ -84,7 +89,11 @@ const WhereToDate = () => {
                                     />
                                 </div>
                             </div>
-                            <button className="absolute -bottom-5 left-[45%] text-white uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
+                            <button onClick={() => {
+                                console.log(destination)
+                                Swal.fire("Itinerary is ready","Scroll down","success")
+                                localStorage.setItem("destination",destination);
+                            }} className="absolute -bottom-5 left-[45%] text-white uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
                                 Search
                             </button>
                         </div>

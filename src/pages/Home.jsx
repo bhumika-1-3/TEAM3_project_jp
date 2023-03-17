@@ -9,9 +9,9 @@ import { createClient } from 'pexels';
 import { BiMapPin, BiMap } from "react-icons/bi";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  MapContainer,
-  Marker,
-  TileLayer,
+    MapContainer,
+    Marker,
+    TileLayer,
 } from "react-leaflet";
 import L from "leaflet";
 import mark from "../../assets/images/markers.png"
@@ -164,7 +164,16 @@ const Home = () => {
             {/* Search Form - Where to */}
             <WhereTo />
             {/* --- */}
-            <div className="grid grid-cols-3 gap-8 m-10">
+            <div className="container mx-auto p-4">
+
+                <h2 className="font-semibold text-4xl text-center">
+                    Trending Places
+                </h2>
+                <p className="text-xl text-dark mb-2 text-center">
+                    These are some places you might want to visit
+                </p>
+            </div>
+            <div className="grid grid-cols-3 gap-8 m-20">
                 {Popular !== []
                     ? Popular.length > 0 &&
                     Popular.map((item) => <Card data={item} />)

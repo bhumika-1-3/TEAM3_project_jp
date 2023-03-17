@@ -82,7 +82,6 @@ const HotelsList = () => {
     return ( 
        <>
             {/* Navigation Bar with Border */}
-            <Navbar border />
             {/* --- */}
 
             <div className="pb-4">
