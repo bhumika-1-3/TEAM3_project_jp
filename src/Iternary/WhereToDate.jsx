@@ -29,7 +29,11 @@ const WhereToDate = () => {
     }
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
+<<<<<<< HEAD
     console.log()
+=======
+    const previousTrip = JSON.parse(localStorage.getItem("trips"));
+>>>>>>> ad01618f76e9b69dbb1b886394065b8962e04ba4
     return (
         <div>
             <div className="w-full h-full relative">
@@ -101,8 +105,15 @@ const WhereToDate = () => {
                             <button onClick={() => {
                                 setInfo(prev => ({ ...prev, search: true }))
                                 console.log(destination)
+<<<<<<< HEAD
                                 Swal.fire("Itinerary is ready", "Scroll down", "success")
                                 localStorage.setItem("destination", destination);
+=======
+                                Swal.fire("Itinerary is ready","Scroll down","success")
+                                localStorage.setItem("destination",destination);
+                                previousTrip.append(destination);
+                                localStorage.setItem("trips",JSON.stringify(previousTrip))
+>>>>>>> ad01618f76e9b69dbb1b886394065b8962e04ba4
                             }} className="absolute -bottom-5 left-[45%] text-white uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
                                 Search
                             </button>
