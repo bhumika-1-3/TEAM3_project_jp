@@ -122,7 +122,7 @@ const returnHotels = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: destinationIds,
+      message: error.message,
     });
   }
 };
