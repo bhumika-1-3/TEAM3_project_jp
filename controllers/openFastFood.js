@@ -1,5 +1,5 @@
-require('dotenv').config();
-const { Configuration, OpenAIApi } = require('openai');
+require("dotenv").config();
+const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
   apiKey: process.env.OPEN_AI_KEY,
@@ -17,12 +17,12 @@ const findStreetFood = async (req, res) => {
   try {
     const { cityName } = req.params;
     const prompt =
-      'Give me two javascript array of objects in string format with 2 steet food giving the street food name,its expected price in ' +
+      "Give me only one javascript array containing names of street food or local food in " +
       cityName +
-      '. Dont give me the variable name declaration. Give only the array of objects';
+      ". Dont give me the variable name declaration. Give only the array.";
     // console.log(prompt);
     const response = await openai.createCompletion({
-      model: 'text-davinci-003',
+      model: "text-davinci-003",
       prompt: prompt,
       temperature: 0.7,
       max_tokens: 256,
@@ -32,9 +32,9 @@ const findStreetFood = async (req, res) => {
     });
     let data = response.data.choices[0].text;
     // console.log(data);
-    let data2 = data.replace(/(\r\n|\r|\n)/g, '');
-    data2 = data2.replace(/ /g, '');
-    data2 = data2.replace('.', '');
+    let data2 = data.replace(/(\r\n|\r|\n)/g, "");
+    data2 = data2.replace(/ /g, "");
+    data2 = data2.replace(".", "");
     console.log(data2);
     data2 = JSON.parse(data2);
     return res.status(200).json({
