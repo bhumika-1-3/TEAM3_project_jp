@@ -35,7 +35,7 @@ const popularPlacesOpenTripMap = async (req, res) => {
   try {
     const { cityName } = req.params;
     const { data } = await axios.get(
-      `http://api.opentripmap.com/0.1/en/places/geoname?lang=en&name=${cityName}&apikey=${process.env.OPENTRIP_API_KEY}`
+      `http://api.opentripmap.com/0.1/en/places/geoname?lang=en&name=${cityName}&format=json&apikey=${process.env.OPENTRIP_API_KEY}`
     );
 
     if (!data || data.length === 0) {
@@ -46,7 +46,7 @@ const popularPlacesOpenTripMap = async (req, res) => {
     }
     console.log(data);
     const response = await axios.get(
-      `http://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=10000&lat=${data.lat}&lon=${data.lon}&rate=3,3h&format=json&apikey=${process.env.OPENTRIP_API_KEY}`
+      `http://api.opentripmap.com/0.1/en/places/radius?lang=en&radius=10000&lat=${data.lat}&lon=${data.lon}&kinds=beaches,other_beaches,museums,architecture,historic_architecture,fortifications,other_archaeological_sites&format=json&apikey=${process.env.OPENTRIP_API_KEY}`
     );
     const results = response && response.data;
     if (!results || results.length === 0) {
@@ -55,9 +55,13 @@ const popularPlacesOpenTripMap = async (req, res) => {
       });
       return;
     }
+    const filteredData = response.data.filter(
+      (item) => item.name != "" && item.rate != 0
+    );
+
     res.status(200).json({
       message: "Popular Places Fetched!",
-      data: response.data,
+      data: filteredData,
     });
   } catch (error) {
     res.status(400).json({
