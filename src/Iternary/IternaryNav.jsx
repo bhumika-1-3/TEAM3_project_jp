@@ -3,11 +3,8 @@ import { Tab } from '@headlessui/react'
 import { ToStay, ToVisit } from '../components'
 import Climate from '../Climate/src/CLimate'
 import { HotelsList, RestaurantsList } from '../pages'
-<<<<<<< HEAD
 import Transport from '../pages/Transport'
-=======
 import { Link } from 'react-router-dom'
->>>>>>> ad01618f76e9b69dbb1b886394065b8962e04ba4
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -206,11 +203,7 @@ export default function ItineraryNav() {
                 <RestaurantsList />
               </div>
             </Tab.Panel>
-<<<<<<< HEAD
 
-=======
-         
->>>>>>> ad01618f76e9b69dbb1b886394065b8962e04ba4
           </Tab.Panels>
 
         </Tab.Group>
