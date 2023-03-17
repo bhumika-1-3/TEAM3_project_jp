@@ -27,8 +27,6 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: Number,
       trim: true,
-      // minlength: [10, "Invalid number!"],
-      // maxlength: [10, "Invalid number!"],
     },
 
     password: {
@@ -44,11 +42,40 @@ const userSchema = new mongoose.Schema(
       trim: true,
       enum: ["male", "female", "other"],
     },
-
     age: {
       type: Number,
       trim: true,
     },
+
+    queries: [
+      {
+        location: {
+          type: String,
+          trim: true,
+        },
+        startDate: {
+          type: String,
+          trim: true,
+        },
+        endDate: {
+          type: String,
+          trim: true,
+        },
+        adults: {
+          type: Number,
+          trim: true,
+        },
+        children: {
+          type: Number,
+          trim: true,
+        },
+        budget: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
+    
     otp: {
       email: {
         type: String,
