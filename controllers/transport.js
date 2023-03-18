@@ -1,16 +1,16 @@
-const { format } = require("date-fns");
-const axios = require("axios");
-const dotenv = require("dotenv").config();
+const { format } = require('date-fns');
+const axios = require('axios');
+const dotenv = require('dotenv').config();
 
 const getAirportCode = async (place) => {
   try {
     const options = {
-      method: "GET",
-      url: "https://skyscanner44.p.rapidapi.com/autocomplete",
+      method: 'GET',
+      url: 'https://skyscanner44.p.rapidapi.com/autocomplete',
       params: { query: place },
       headers: {
-        "X-RapidAPI-Key": process.env.RAPID_API_SKYSCANNER_KEY,
-        "X-RapidAPI-Host": "skyscanner44.p.rapidapi.com",
+        'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
+        'X-RapidAPI-Host': 'skyscanner44.p.rapidapi.com',
       },
     };
     const { data } = await axios.request(options);
@@ -27,32 +27,32 @@ const getBestFlights = async (req, res) => {
     const originCode = await getAirportCode(origin);
     const destinationCode = await getAirportCode(destination);
     const options = {
-      method: "GET",
-      url: "https://skyscanner44.p.rapidapi.com/search",
+      method: 'GET',
+      url: 'https://skyscanner44.p.rapidapi.com/search',
       params: {
         adults,
         origin: originCode,
         destination: destinationCode,
-        departureDate: format(new Date(departureDate), "yyyy-MM-dd"),
-        returnDate: format(new Date(returnDate), "yyyy-MM-dd"),
-        currency: "INR",
+        departureDate: format(new Date(departureDate), 'yyyy-MM-dd'),
+        returnDate: format(new Date(returnDate), 'yyyy-MM-dd'),
+        currency: 'INR',
       },
       headers: {
-        "X-RapidAPI-Key": process.env.RAPID_API_SKYSCANNER_KEY,
-        "X-RapidAPI-Host": "skyscanner44.p.rapidapi.com",
+        'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
+        'X-RapidAPI-Host': 'skyscanner44.p.rapidapi.com',
       },
     };
     console.log(options);
     const { data } = await axios.request(options);
     if (!data || data.length === 0 || data.itineraries.buckets.length === 0) {
       res.status(400).json({
-        message: "No Flights Found!",
+        message: 'No Flights Found!',
       });
       return;
     }
     const flights = data.itineraries.buckets[0].items;
     res.status(200).json({
-      message: "Flights Fetched",
+      message: 'Flights Fetched',
       data: flights,
     });
   } catch (error) {
@@ -66,12 +66,12 @@ const getBestFlights = async (req, res) => {
 const getLocationData = async (query) => {
   try {
     const options = {
-      method: "GET",
-      url: "https://skyscanner44.p.rapidapi.com/autocomplete-rentacar",
+      method: 'GET',
+      url: 'https://skyscanner44.p.rapidapi.com/autocomplete-rentacar',
       params: { query },
       headers: {
-        "X-RapidAPI-Key": process.env.RAPID_API_SKYSCANNER_KEY,
-        "X-RapidAPI-Host": "skyscanner44.p.rapidapi.com",
+        'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
+        'X-RapidAPI-Host': 'skyscanner44.p.rapidapi.com',
       },
     };
     const { data } = await axios.request(options);
@@ -86,19 +86,19 @@ const getBestCarRental = async (req, res) => {
     const { location, pickupDate, returnDate } = req.params;
     const locationId = await getLocationData(location);
     const options = {
-      method: "GET",
-      url: "https://skyscanner44.p.rapidapi.com/search-rentacar",
+      method: 'GET',
+      url: 'https://skyscanner44.p.rapidapi.com/search-rentacar',
       params: {
         pickupId: locationId,
-        pickupDate: format(new Date(pickupDate), "yyyy-MM-dd"),
-        pickupTime: "10:00",
-        returnDate: format(new Date(returnDate), "yyyy-MM-dd"),
-        returnTime: "10:00",
-        currency: "INR",
+        pickupDate: format(new Date(pickupDate), 'yyyy-MM-dd'),
+        pickupTime: '10:00',
+        returnDate: format(new Date(returnDate), 'yyyy-MM-dd'),
+        returnTime: '10:00',
+        currency: 'INR',
       },
       headers: {
-        "X-RapidAPI-Key": process.env.RAPID_API_SKYSCANNER_KEY,
-        "X-RapidAPI-Host": "skyscanner44.p.rapidapi.com",
+        'X-RapidAPI-Key': '5448749687msh39a94d676c7ec32p1cd131jsn3f50f76928ff',
+        'X-RapidAPI-Host': 'skyscanner44.p.rapidapi.com',
       },
     };
 
@@ -113,7 +113,7 @@ const getBestCarRental = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Car Fetched",
+      message: 'Car Fetched',
       data: data.providers[mostRatedCar],
     });
   } catch (error) {

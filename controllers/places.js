@@ -104,11 +104,12 @@ const getCityDetails = async (req, res) => {
 
 const getCityDetailsFn = async (cityName) => {
   try {
+    console.log(cityName);
     const { data } = await amadeus.referenceData.locations.get({
       keyword: cityName,
       subType: 'CITY',
     });
-
+    console.log(data[0]);
     if (!data || data.length === 0) {
       res.status(400).json({
         message: 'City Not Found!',
