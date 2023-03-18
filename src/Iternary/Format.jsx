@@ -52,6 +52,97 @@ const Format = () => {
         ],
     })
 
+    const dataIt1 = {
+
+        "items": [
+            {
+                "name": "Check in to Hotel A",
+                "location": "Vashi",
+                "start_time": "9:00 AM",
+                "end_time": "10:00 AM"
+            },
+            {
+                "name": "Visit ISKCON Temple",
+                "location": "Kharghar",
+                "start_time": "11:00 AM",
+                "end_time": "12:00 PM"
+            },
+            {
+                "name": "Lunch at The Urban Foundry",
+                "location": "Belapur",
+                "start_time": "1:00 PM",
+                "end_time": "2:00 PM"
+            },
+            {
+                "name": "Explore Central Park",
+                "location": "Kharghar",
+                "start_time": "3:00 PM",
+                "end_time": "4:30 PM"
+            },
+            {
+                "name": "Dinner at Mini Punjab's Lake Side",
+                "location": "Vashi",
+                "start_time": "7:00 PM",
+                "end_time": "8:00 PM"
+            }
+        ]
+    }
+    const dataIt2 =
+    {
+        "day": "Day 2",
+        "items": [
+            {
+                "name": "Breakfast at Cafe Mangii",
+                "location": "Vashi",
+                "start_time": "9:00 AM",
+                "end_time": "10:00 AM"
+            },
+            {
+                "name": "Visit Shri Teenmurti Digambar Jain Mandir",
+                "location": "Seawoods",
+                "start_time": "11:00 AM",
+                "end_time": "12:00 PM"
+            },
+            {
+                "name": "Lunch at Mahesh Lunch Home",
+                "location": "Vashi",
+                "start_time": "1:00 PM",
+                "end_time": "2:00 PM"
+            },
+            {
+                "name": "Explore Pandavkada Falls",
+                "location": "Kharghar",
+                "start_time": "3:00 PM",
+                "end_time": "4:30 PM"
+            },
+            {
+                "name": "Dinner at Barbeque Nation",
+                "location": "Belapur",
+                "start_time": "7:00 PM",
+                "end_time": "8:00 PM"
+            }
+        ]
+    }
+
+    const hotels = {
+        "hotels": [
+            {
+                "name": "Hotel A",
+                "location": "Vashi",
+                "price": "1000/day"
+            },
+            {
+                "name": "Hotel B",
+                "location": "Belapur",
+                "price": "1200/day"
+            },
+            {
+                "name": "Hotel C",
+                "location": "Kharghar",
+                "price": "1240/day"
+            }
+        ]
+    }
     const cardsData = [
         {
             name: "Pizza Hut",
@@ -138,8 +229,8 @@ const Format = () => {
                                 )}
                             >
                                 <div className="container mx-auto px-4">
-                                <h1 className='text-4xl font-semibold p-5'>Day 1</h1>
-                                    <CardGrid cards={cardsData} />
+                                    <h1 className='text-4xl font-semibold p-5'>Day 1</h1>
+                                    <CardGrid cards={cardsData} days1={dataIt1} days2={dataIt2} hotels={hotels}/>
                                     <center>
                                         <Stack spacing={2}>
                                             <Pagination count={days} variant="outlined" shape="rounded" />

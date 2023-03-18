@@ -4,6 +4,7 @@ import { ToStay, ToVisit } from '../components'
 import Climate from '../Climate/src/CLimate'
 import { HotelsList, RestaurantsList } from '../pages'
 import Transport from '../pages/Transport'
+import EmergencyContactCard from './EmergencyContactCard'
 import { Link } from 'react-router-dom'
 
 function classNames(...classes) {
@@ -12,19 +13,19 @@ function classNames(...classes) {
 
 export default function ItineraryNav() {
   let [categories] = useState({
-    Hotels: [
+    Attractions: [
       {
         id: 1,
-        title: 'Does drinking coffee make you smarter?',
-        date: '5h ago',
-        commentCount: 5,
-        shareCount: 2,
+        title: 'Ask Me Anything: 10 answers to your questions about coffee',
+        date: '2d ago',
+        commentCount: 9,
+        shareCount: 5,
       },
       {
         id: 2,
-        title: "So you've bought coffee... now what?",
-        date: '2h ago',
-        commentCount: 3,
+        title: "The worst advice we've ever heard about coffee",
+        date: '4d ago',
+        commentCount: 1,
         shareCount: 2,
       },
     ],
@@ -44,7 +45,8 @@ export default function ItineraryNav() {
         shareCount: 12,
       },
     ],
-    Attractions: [
+
+    Climate: [
       {
         id: 1,
         title: 'Ask Me Anything: 10 answers to your questions about coffee',
@@ -60,19 +62,21 @@ export default function ItineraryNav() {
         shareCount: 2,
       },
     ],
-    Climate: [
+
+
+    Hotels: [
       {
         id: 1,
-        title: 'Ask Me Anything: 10 answers to your questions about coffee',
-        date: '2d ago',
-        commentCount: 9,
-        shareCount: 5,
+        title: 'Does drinking coffee make you smarter?',
+        date: '5h ago',
+        commentCount: 5,
+        shareCount: 2,
       },
       {
         id: 2,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
+        title: "So you've bought coffee... now what?",
+        date: '2h ago',
+        commentCount: 3,
         shareCount: 2,
       },
     ],
@@ -108,7 +112,78 @@ export default function ItineraryNav() {
         shareCount: 2,
       },
     ],
+    Emergency: [
+      {
+        id: 1,
+        title: 'Ask Me Anything: 10 answers to your questions about coffee',
+        date: '2d ago',
+        commentCount: 9,
+        shareCount: 5,
+      },
+      {
+        id: 2,
+        title: "The worst advice we've ever heard about coffee",
+        date: '4d ago',
+        commentCount: 1,
+        shareCount: 2,
+      },
+    ],
   })
+
+
+  const emerg = {
+    "Police": {
+      "Emergency Number": "100",
+      "Control Room": "022-22625020",
+      "Police Station (locality)": {
+        "Name": "Example Police Station",
+        "Address": "123 Main Street, Mumbai",
+        "Phone": "022-12345678"
+      }
+    },
+    "Fire": {
+      "Emergency Number": "101",
+      "Control Room": "022-23076111",
+      "Fire Station (locality)": {
+        "Name": "Example Fire Station",
+        "Address": "456 Elm Street, Mumbai",
+        "Phone": "022-23456789"
+      }
+    },
+    "Ambulance": {
+      "Emergency Number": "102",
+      "Control Room": "022-23079643",
+      "Ambulance (locality)": {
+        "Name": "Example Ambulance",
+        "Address": "789 Oak Street, Mumbai",
+        "Phone": "022-34567890"
+      }
+    }
+  }
+
+  const emergencyContacts = {
+    police: {
+      number: "100",
+      controlRoom: "022-22625020",
+      stationName: "Example Police Station",
+      stationAddress: "123 Main Street, Mumbai",
+      stationPhone: "022-12345678"
+    },
+    fire: {
+      number: "101",
+      controlRoom: "022-23076111",
+      stationName: "Example Fire Station",
+      stationAddress: "456 Elm Street, Mumbai",
+      stationPhone: "022-23456789"
+    },
+    ambulance: {
+      number: "102",
+      controlRoom: "022-23079643",
+      stationName: "Example Ambulance",
+      stationAddress: "789 Oak Street, Mumbai",
+      stationPhone: "022-34567890"
+    }
+  };
 
   return (
     <center>
@@ -160,8 +235,9 @@ export default function ItineraryNav() {
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
               )}
             >
-              <HotelsList />
+              <ToVisit></ToVisit>
             </Tab.Panel>
+
             <Tab.Panel
               key={5}
               className={classNames(
@@ -171,15 +247,7 @@ export default function ItineraryNav() {
             >
               <Transport />
             </Tab.Panel>
-            <Tab.Panel
-              key={5}
-              className={classNames(
-                'rounded-xl bg-white p-3',
-                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
-              )}
-            >
-              <ToVisit></ToVisit>
-            </Tab.Panel>
+
 
             <Tab.Panel
               key={5}
@@ -199,11 +267,45 @@ export default function ItineraryNav() {
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
               )}
             >
+              <HotelsList />
+            </Tab.Panel>
+            <Tab.Panel
+              key={5}
+              className={classNames(
+                'rounded-xl bg-white p-3',
+                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+              )}
+            >
               <div className='p-10'>
                 <RestaurantsList />
               </div>
             </Tab.Panel>
-
+            <Tab.Panel
+              key={5}
+              className={classNames(
+                'rounded-xl bg-white p-3',
+                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+              )}
+            >
+              <div className="grid grid-cols-3 gap-4">
+                <EmergencyContactCard title="Police" {...emergencyContacts.police} />
+                <EmergencyContactCard title="Fire" {...emergencyContacts.fire} />
+                <EmergencyContactCard title="Ambulance" {...emergencyContacts.ambulance} />
+              </div>
+            </Tab.Panel>
+            <Tab.Panel
+              key={5}
+              className={classNames(
+                'rounded-xl bg-white p-3',
+                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+              )}
+            >
+              <div className="grid grid-cols-3 gap-4">
+                <EmergencyContactCard title="Police" {...emergencyContacts.police} />
+                <EmergencyContactCard title="Fire" {...emergencyContacts.fire} />
+                <EmergencyContactCard title="Ambulance" {...emergencyContacts.ambulance} />
+              </div>
+            </Tab.Panel>
           </Tab.Panels>
 
         </Tab.Group>

@@ -164,7 +164,7 @@ const Home = () => {
             {/* Search Form - Where to */}
             <WhereTo />
             {/* --- */}
-            <div className="container mx-auto p-4">
+            <div className="container mt-20 mx-auto p-4">
 
                 <h2 className="font-semibold text-4xl text-center">
                     Trending Places

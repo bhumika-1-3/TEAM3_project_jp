@@ -18,8 +18,8 @@ const WhereTo = () => {
 
     return ( 
         <div className="container mx-auto p-4 relative flex justify-center items-center">
-            <img src={wheretoImg} alt="BG" 
-                className="object-cover md:w-full md:h-[em] h-[20em]" 
+            <img src="https://images.pexels.com/photos/2909822/pexels-photo-2909822.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="BG" 
+                className="object-cover md:w-full md:h-[em] h-[30em]" 
             />
             {/* Search Input Field */}
             <div className="absolute w-[85%] md:w-10/12">
