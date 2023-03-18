@@ -212,6 +212,7 @@ const itenaryJson = async (req, res) => {
       `https://jpmc-project.onrender.com/api/places/popular/${cityName}`
     );
     // console.log(placesOfAttraction.data);
+    console.log(hotel.data.data[0]);
     const placesOfAttractionSorted = await popularPlacesSorted(
       hotel.data.data[0],
       placesOfAttraction.data.data
