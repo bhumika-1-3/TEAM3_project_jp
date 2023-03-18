@@ -14,202 +14,16 @@ const itenaryJson = async (req, res) => {
       destination,
       no_of_rooms,
     } = req.params;
-    // const flight = await axios.get(
-    //   `http:localhost:8000/api/transport/flights/:${origin}/:${destination}/:${departureDate}/:${returnDate}/:${adults}/:${children}`
-    // );
-    const flight = {
-      message: 'Flights Fetched',
-      data: [
-        {
-          id: '10075-2303192155--32213-0-11906-2303192310|11906-2303202345--32213-0-10075-2303210100',
-          price: {
-            raw: 12244,
-            formatted: '₹ 12,244',
-          },
-          legs: [
-            {
-              id: '10075-2303192155--32213-0-11906-2303192310',
-              origin: {
-                id: 'BOM',
-                name: 'Mumbai',
-                displayCode: 'BOM',
-                city: 'Mumbai',
-                isHighlighted: false,
-              },
-              destination: {
-                id: 'GOI',
-                name: 'Goa',
-                displayCode: 'GOI',
-                city: 'Marmagao',
-                isHighlighted: false,
-              },
-              durationInMinutes: 75,
-              stopCount: 0,
-              isSmallestStops: false,
-              departure: '2023-03-19T21:55:00',
-              arrival: '2023-03-19T23:10:00',
-              timeDeltaInDays: 0,
-              carriers: {
-                marketing: [
-                  {
-                    id: -32213,
-                    logoUrl:
-                      'https://logos.skyscnr.com/images/airlines/favicon/49.png',
-                    name: 'IndiGo',
-                  },
-                ],
-                operationType: 'fully_operated',
-              },
-              segments: [
-                {
-                  id: '10075-11906-2303192155-2303192310--32213',
-                  origin: {
-                    flightPlaceId: 'BOM',
-                    parent: {
-                      flightPlaceId: 'IBOM',
-                      name: 'Mumbai',
-                      type: 'City',
-                    },
-                    name: 'Mumbai',
-                    type: 'Airport',
-                  },
-                  destination: {
-                    flightPlaceId: 'GOI',
-                    parent: {
-                      flightPlaceId: 'IGOI',
-                      name: 'Marmagao',
-                      type: 'City',
-                    },
-                    name: 'Goa',
-                    type: 'Airport',
-                  },
-                  departure: '2023-03-19T21:55:00',
-                  arrival: '2023-03-19T23:10:00',
-                  durationInMinutes: 75,
-                  flightNumber: '5206',
-                  marketingCarrier: {
-                    id: -32213,
-                    name: 'IndiGo',
-                    alternateId: '49',
-                    allianceId: 0,
-                  },
-                  operatingCarrier: {
-                    id: -32213,
-                    name: 'IndiGo',
-                    alternateId: '49',
-                    allianceId: 0,
-                  },
-                },
-              ],
-            },
-            {
-              id: '11906-2303202345--32213-0-10075-2303210100',
-              origin: {
-                id: 'GOI',
-                name: 'Goa',
-                displayCode: 'GOI',
-                city: 'Marmagao',
-                isHighlighted: false,
-              },
-              destination: {
-                id: 'BOM',
-                name: 'Mumbai',
-                displayCode: 'BOM',
-                city: 'Mumbai',
-                isHighlighted: false,
-              },
-              durationInMinutes: 75,
-              stopCount: 0,
-              isSmallestStops: false,
-              departure: '2023-03-20T23:45:00',
-              arrival: '2023-03-21T01:00:00',
-              timeDeltaInDays: 1,
-              carriers: {
-                marketing: [
-                  {
-                    id: -32213,
-                    logoUrl:
-                      'https://logos.skyscnr.com/images/airlines/favicon/49.png',
-                    name: 'IndiGo',
-                  },
-                ],
-                operationType: 'fully_operated',
-              },
-              segments: [
-                {
-                  id: '11906-10075-2303202345-2303210100--32213',
-                  origin: {
-                    flightPlaceId: 'GOI',
-                    parent: {
-                      flightPlaceId: 'IGOI',
-                      name: 'Marmagao',
-                      type: 'City',
-                    },
-                    name: 'Goa',
-                    type: 'Airport',
-                  },
-                  destination: {
-                    flightPlaceId: 'BOM',
-                    parent: {
-                      flightPlaceId: 'IBOM',
-                      name: 'Mumbai',
-                      type: 'City',
-                    },
-                    name: 'Mumbai',
-                    type: 'Airport',
-                  },
-                  departure: '2023-03-20T23:45:00',
-                  arrival: '2023-03-21T01:00:00',
-                  durationInMinutes: 75,
-                  flightNumber: '205',
-                  marketingCarrier: {
-                    id: -32213,
-                    name: 'IndiGo',
-                    alternateId: '49',
-                    allianceId: 0,
-                  },
-                  operatingCarrier: {
-                    id: -32213,
-                    name: 'IndiGo',
-                    alternateId: '49',
-                    allianceId: 0,
-                  },
-                },
-              ],
-            },
-          ],
-          isSelfTransfer: false,
-          isProtectedSelfTransfer: false,
-          farePolicy: {
-            isChangeAllowed: false,
-            isPartiallyChangeable: false,
-            isCancellationAllowed: false,
-            isPartiallyRefundable: false,
-          },
-          fareAttributes: {},
-          tags: ['cheapest'],
-          isMashUp: false,
-          hasFlexibleOptions: false,
-          score: 0.820946,
-          pricingOptions: [
-            {
-              agentIds: ['ctuk'],
-              amount: 12244,
-              bookingProposition: 'PBOOK',
-            },
-          ],
-          deeplink:
-            'https://www.skyscanner.net/transport/flights/bom/goi/230319/230320/config/10075-2303192155--32213-0-11906-2303192310|11906-2303202345--32213-0-10075-2303210100?adults=2&adultsv2=2&cabinclass=economy&children=0&childrenv2=&destinationentityid=27541888&originentityid=27539520&inboundaltsenabled=false&infants=0&outboundaltsenabled=false&preferdirects=false&ref=home&rtn=1',
-        },
-      ],
-    };
+    const flight = await axios.get(
+      `https://jpmc-project.onrender.com/api/transport/flights/${origin}/${destination}/${departureDate}/${returnDate}/${adults}/${children}/`
+    );
 
     const hotel = await axios.get(
-      `https://jpmc-project.onrender.com/api/hotels/all/${cityName}/${adults}/${children}/${budget}/${departureDate}/${returnDate}/${no_of_rooms}`
+      `https://jpmc-project.onrender.com/api/hotels/all/${destination}/${adults}/${children}/${budget}/${departureDate}/${returnDate}/${no_of_rooms}`
     );
 
     const placesOfAttraction = await axios.get(
-      `https://jpmc-project.onrender.com/api/places/popular/${cityName}`
+      `https://jpmc-project.onrender.com/api/places/popular/${destination}`
     );
     // console.log(placesOfAttraction.data);
     console.log(hotel.data.data[0]);
@@ -219,31 +33,31 @@ const itenaryJson = async (req, res) => {
     );
     // console.log(placesOfAttractionSorted);
     const restaurents = await axios.get(
-      `https://jpmc-project.onrender.com/api/restaurants/${cityName}`
+      `https://jpmc-project.onrender.com/api/restaurants/${destination}`
     );
 
     let destIter = 0;
     let restuarIter = 0;
     let NoOFDays =
-      parseInt(departureDate.substring(9, 11)) -
-      parseInt(returnDate.substring(9, 11));
+      parseInt(returnDate.substring(9, 11)) -
+      parseInt(departureDate.substring(9, 11));
     const itenary = {
-      trip: NoOFDays + ' days ' + cityName + ' itenary',
+      trip: NoOFDays + ' days ' + destination + ' itenary',
       days: [],
     };
     let item1 = {
       name: 'Start journey by taking flight',
-      source: flight.data[0].legs[0].origin.name,
-      destination: flight.data[0].legs[0].destination.name,
-      start_time: flight.data[0].legs[0].departure,
-      end_time: flight.data[0].legs[0].arrival,
+      source: flight.data.data[0].legs[0].origin.name,
+      destination: flight.data.data[0].legs[0].destination.name,
+      start_time: flight.data.data[0].legs[0].departure,
+      end_time: flight.data.data[0].legs[0].arrival,
     };
     let item2 = {
       name: 'Check in to Hotel ' + hotel.data.data[0].hotel_name,
       location: hotel.data.data[0].address,
       duration: '1 hour',
     };
-    let hour = flight.data[0].legs[0].arrival.substring(11, 13);
+    let hour = flight.data.data[0].legs[0].arrival.substring(11, 13);
     let item3;
     hour = parseInt(hour);
     if (hour < 16) {
@@ -307,10 +121,10 @@ const itenaryJson = async (req, res) => {
     };
     item2 = {
       name: 'End journey by taking flight',
-      source: flight.data[0].legs[1].origin.name,
-      destination: flight.data[0].legs[1].destination.name,
-      start_time: flight.data[0].legs[1].departure,
-      end_time: flight.data[0].legs[1].arrival,
+      source: flight.data.data[0].legs[1].origin.name,
+      destination: flight.data.data[0].legs[1].destination.name,
+      start_time: flight.data.data[0].legs[1].departure,
+      end_time: flight.data.data[0].legs[1].arrival,
     };
     itenary.days.push({
       day: 'Day ' + NoOFDays,
@@ -324,7 +138,7 @@ const itenaryJson = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({
-      message: error,
+      message: error.message,
     });
   }
 };
